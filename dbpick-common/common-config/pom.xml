@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.cmnt.live</groupId>
+    <artifactId>common-config</artifactId>
+    <name>common-config</name>
+    <version>1.0.0</version>
+    <description>common-config project for live</description>
+
+    <parent>
+        <groupId>com.cmnt.live</groupId>
+        <artifactId>dbpick-common</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+  <dependencies>
+      <!-- 项目其他module -->
+      <dependency>
+          <groupId>com.cmnt.live</groupId>
+          <artifactId>common-base</artifactId>
+          <version>1.0.0</version>
+      </dependency>
+
+      <!--        Sentinel被称为是分布式系统的流量防卫兵-->
+      <dependency>
+          <groupId>com.alibaba.cloud</groupId>
+          <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+      </dependency>
+
+      <dependency>
+          <groupId>com.ibeetl</groupId>
+          <artifactId>beetl</artifactId>
+      </dependency>
+
+      <!-- https://mvnrepository.com/artifact/com.xuxueli/xxl-job-core -->
+      <dependency>
+          <groupId>com.xuxueli</groupId>
+          <artifactId>xxl-job-core</artifactId>
+          <version>2.3.0</version>
+      </dependency>
+
+      <dependency>
+          <groupId>com.alibaba.csp</groupId>
+          <artifactId>sentinel-transport-simple-http</artifactId>
+      </dependency>
+
+      <dependency>
+          <groupId>com.github.tencentyun</groupId>
+          <artifactId>tls-sig-api-v2</artifactId>
+          <version>2.0</version>
+      </dependency>
+      <dependency>
+          <groupId>eu.bitwalker</groupId>
+          <artifactId>UserAgentUtils</artifactId>
+          <version>1.21</version>
+      </dependency>
+
+  </dependencies>
+
+    <repositories>
+        <repository>
+            <id>huaweicloudsdk</id>
+            <name>huaweicloudsdk</name>
+            <url>https://repo.huaweicloud.com/repository/maven/huaweicloudsdk/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>public</id>
+            <name>aliyun nexus</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+    </repositories>
+</project>

@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.cmnt.live</groupId>
+    <artifactId>dbpick</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>dbpick</name>
+
+    <modules>
+        <module>dbpick-common</module>
+        <module>dbpick-api</module>
+        <module>dbpick-server</module>
+    </modules>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.3.5.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <skipTests>true</skipTests>
+        <docker.maven.plugin.version>1.1.0</docker.maven.plugin.version>
+        <java.version>1.8</java.version>
+        <spring-cloud.version>Hoxton.SR5</spring-cloud.version>
+        <spring-cloud-alibaba.version>2.2.0.RELEASE</spring-cloud-alibaba.version>
+        <spring.jaeger.version>2.0.3</spring.jaeger.version>
+        <druid.version>1.1.10</druid.version>
+        <hutool.version>4.5.7</hutool.version>
+        <mybatis-generator.version>1.3.7</mybatis-generator.version>
+        <mybatis.version>3.4.6</mybatis.version>
+        <mybatis.plus.version>3.4.1</mybatis.plus.version>
+        <beetl.version>3.3.2.RELEASE</beetl.version>
+        <docker.image.prefix>live-server</docker.image.prefix>
+        <pagehelper.version>5.1.4</pagehelper.version>
+        <mysql-connector.version>8.0.16</mysql-connector.version>
+        <spring-data-commons.version>2.3.0.RELEASE</spring-data-commons.version>
+        <jjwt.version>0.9.0</jjwt.version>
+        <api.version>1.0-SNAPSHOT</api.version>
+		<common.version>1.0-SNAPSHOT</common.version>
+        <swagger.version>2.9.2</swagger.version>
+        <context.clound.version>2.2.3.RELEASE</context.clound.version>
+        <javax.validation.version>2.0.1.Final</javax.validation.version>
+        <dubbo.version>2.7.8</dubbo.version>
+        <weixin-java.version>4.1.5.B</weixin-java.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-context</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>${javax.validation.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.eclipse.persistence/javax.persistence -->
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>javax.persistence</artifactId>
+            <version>2.2.0</version>
+        </dependency>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <!--Spring Cloud 相关依赖-->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!--Spring Cloud Alibaba 相关依赖-->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!--通用模块-->
+            <!--Mysql数据库驱动-->
+<!--            <dependency>-->
+<!--                <groupId>mysql</groupId>-->
+<!--                <artifactId>mysql-connector-java</artifactId>-->
+<!--                <version>${mysql-connector.version}</version>-->
+<!--            </dependency>-->
+            <!--Hutool Java工具包-->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <!-- Mybatis-plus时引入的配置start -->
+<!--            <dependency>-->
+<!--                <groupId>com.baomidou</groupId>-->
+<!--                <artifactId>mybatis-plus-boot-starter</artifactId>-->
+<!--                <version>${mybatis.plus.version}</version>-->
+<!--            </dependency>-->
+            <!--集成druid连接池-->
+<!--            <dependency>-->
+<!--                <groupId>com.alibaba</groupId>-->
+<!--                <artifactId>druid-spring-boot-starter</artifactId>-->
+<!--                <version>${druid.version}</version>-->
+<!--            </dependency>-->
+            <dependency>
+                <groupId>com.ibeetl</groupId>
+                <artifactId>beetl</artifactId>
+                <version>${beetl.version}</version>
+            </dependency>
+            <!--SpringData工具包-->
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-commons</artifactId>
+                <version>${spring-data-commons.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <!--<build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <includeSystemScope>true</includeSystemScope>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+            &lt;!&ndash; jar插件 &ndash;&gt;
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <excludes>
+                        <exclude>libs/anxinsign/*</exclude>
+                        <exclude>libs/cicc/*</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+             <plugin>
+                 <groupId>io.fabric8</groupId>
+                 <artifactId>docker-maven-plugin</artifactId>
+                 <version>0.39.1</version>
+                 <configuration>
+                     <authConfig>
+                         &lt;!&ndash; registry服务的认证&ndash;&gt;
+                         <username>873558779@qq.com</username>
+                         <password>shang7171</password>
+                     </authConfig>
+                     <images>
+                         <image>
+                             &lt;!&ndash; 指定image的名字（包含registry地址）&ndash;&gt;
+                             <name>registry.cn-hangzhou.aliyuncs.com/wei-docker/${docker.image.prefix}:${project.name}-${project.version}</name>
+                             &lt;!&ndash;registry地址,用于推送,拉取镜像&ndash;&gt;
+                             <registry>registry.cn-hangzhou.aliyuncs.com</registry>
+                             &lt;!&ndash; 别名为master，不关键&ndash;&gt;
+                             <alias>master</alias>
+                             <build>
+                                 &lt;!&ndash; 指定dockerfile文件的位置&ndash;&gt;
+                                 <dockerFile>${project.basedir}/docker/Dockerfile</dockerFile>
+                                 <buildOptions>
+                                     &lt;!&ndash; 网络的配置，与宿主主机共端口号&ndash;&gt;
+                                     <network>host</network>
+                                 </buildOptions>
+                             </build>
+                         </image>
+                     </images>
+                     <buildArgs>
+                         &lt;!&ndash; dockerfile参数，指定jar路径 &ndash;&gt;
+                         <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
+                     </buildArgs>
+                 </configuration>
+
+                 <executions>
+                     <execution>
+                         <id>docker-exec</id>
+                         &lt;!&ndash; 绑定mvn install阶段，当执行mvn install时 就会执行docker build 和docker push&ndash;&gt;
+                         <phase>package</phase>
+                         <goals>
+                             <goal>build</goal>
+                             <goal>push</goal>
+                         </goals>
+                     </execution>
+                 </executions>
+             </plugin>
+
+        </plugins>
+    </build>-->
+</project>

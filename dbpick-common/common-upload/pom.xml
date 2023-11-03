@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.cmnt.live</groupId>
+    <artifactId>common-upload</artifactId>
+    <name>common-upload</name>
+    <version>1.0.0</version>
+    <description>common-upload project for live</description>
+
+    <parent>
+        <groupId>com.cmnt.live</groupId>
+        <artifactId>dbpick-common</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+  <dependencies>
+      <!-- 项目其他module -->
+      <dependency>
+          <groupId>com.cmnt.live</groupId>
+          <artifactId>common-config</artifactId>
+          <version>1.0.0</version>
+      </dependency>
+
+      <dependency>
+          <groupId>com.huaweicloud</groupId>
+          <artifactId>esdk-obs-java-bundle</artifactId>
+          <version>[3.21.11,)</version>
+      </dependency>
+
+      <!-- 腾讯云文件上传 -->
+      <dependency>
+          <groupId>com.qcloud</groupId>
+          <artifactId>cos_api</artifactId>
+          <version>5.6.15</version>
+      </dependency>
+
+  </dependencies>
+
+    <repositories>
+        <repository>
+            <id>huaweicloudsdk</id>
+            <name>huaweicloudsdk</name>
+            <url>https://repo.huaweicloud.com/repository/maven/huaweicloudsdk/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>public</id>
+            <name>aliyun nexus</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+    </repositories>
+</project>

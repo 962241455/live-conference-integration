@@ -1,0 +1,84 @@
+version: '3.4'
+services:
+  dbpick-gateway:
+    image: dbpick/dbpick-gateway:1.0-SNAPSHOT
+    hostname: gateway
+    ports:
+      - "7070:7070"
+    deploy:
+      replicas: 1
+      # @see https://docs.docker.com/compose/compose-file/#restart_policy
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      # @see https://docs.docker.com/compose/compose-file/#resources
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 1024M
+        reservations:
+          cpus: '0.25'
+          memory: 512M
+    environment:
+      - JAVA_OPTS=-Xmx512M -Xms512M -Xmn128M -Xdebug -Xrunjdwp:transport=dt_socket,address=5005,server=y,suspend=n
+      - spring.profiles.active=dev
+
+  dbpick-live:
+    image: dbpick/dbpick-live:1.0-SNAPSHOT
+    hostname: live
+    ports:
+      - "7072:7072"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 1024M
+        reservations:
+          cpus: '0.25'
+          memory: 512M
+    depends_on:
+      - gateway
+    volumes:
+      - "/logs:/logs"
+    environment:
+      - JAVA_OPTS=-Xmx512M -Xms512M -Xmn128M -Xdebug -Xrunjdwp:transport=dt_socket,address=5005,server=y,suspend=n
+      - spring.profiles.active=dev
+
+  dbpick-user:
+    image: dbpick/dbpick-user:1.0-SNAPSHOT
+    hostname: user
+    ports:
+      - "7071:7071"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 1024M
+        reservations:
+          cpus: '0.25'
+          memory: 512M
+    depends_on:
+      - gateway
+    volumes:
+      - "/logs:/logs"
+    environment:
+      - JAVA_OPTS=-Xmx512M -Xms512M -Xmn128M -Xdebug -Xrunjdwp:transport=dt_socket,address=5005,server=y,suspend=n
+      - spring.profiles.active=dev
+
+networks:
+  simple_ecommerce:
+    external: true

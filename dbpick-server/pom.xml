@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.cmnt.live</groupId>
+    <artifactId>dbpick-server</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>dbpick-server</name>
+
+    <modules>
+        <module>dbpick-backend-gateway</module>
+        <module>dbpick-core</module>
+        <module>dbpick-gateway</module>
+        <module>dbpick-live</module>
+        <module>dbpick-manager</module>
+<!--        <module>dbpick-stats</module>-->
+        <module>dbpick-transcoding</module>
+        <module>dbpick-third</module>
+        <module>dbpick-user</module>
+        <module>dbpick-meeting</module>
+    </modules>
+
+    <parent>
+        <groupId>com.cmnt.live</groupId>
+        <artifactId>dbpick</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/io.fabric8/docker-maven-plugin -->
+        <dependency>
+            <groupId>io.fabric8</groupId>
+            <artifactId>docker-maven-plugin</artifactId>
+            <version>0.39.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.rocketmq</groupId>
+            <artifactId>rocketmq-spring-boot</artifactId>
+            <version>2.1.1</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <includeSystemScope>true</includeSystemScope>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+            <!-- jar插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <excludes>
+                        <exclude>libs/anxinsign/*</exclude>
+                        <exclude>libs/cicc/*</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+
+            <!--<plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <from>
+                        &lt;!&ndash; 与Dockfile文件的 《FROM java:8》相当 &ndash;&gt;
+&lt;!&ndash;                        <image>java:8</image>&ndash;&gt;
+                        <image>openjdk:alpine</image>
+                    </from>
+                    <to>
+                        <image>registry.cn-hangzhou.aliyuncs.com/wei-docker/${docker.image.prefix}:${project.name}-${project.version}</image>
+                        <auth>
+                            &lt;!&ndash; username 账号名称 &ndash;&gt;
+                            &lt;!&ndash; passwork 账号密码 &ndash;&gt;
+                            <username>873558779@qq.com</username>
+                            <password>shang7171</password>
+                        </auth>
+                    </to>
+                    <container>
+                        <creationTime>USE_CURRENT_TIMESTAMP</creationTime>
+&lt;!&ndash;                        <mainClass>com.cmnt.dbpick.live.server.LiveApplication</mainClass>&ndash;&gt;
+                        &lt;!&ndash;命令参数 &ndash;&gt;
+                        <jvmFlags>
+                            <jvmFlag>-server</jvmFlag>
+                            <jvmFlag>-Xms512m</jvmFlag>
+                            <jvmFlag>-Xmx512m</jvmFlag>
+                        </jvmFlags>
+                        <args>
+                            <arg>&#45;&#45;spring.profiles.active=dev</arg>
+                        </args>
+                    </container>
+                </configuration>
+            </plugin>-->
+
+            <!--<plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.39.1</version>
+                <configuration>
+                    <authConfig>
+                        &lt;!&ndash; registry服务的认证&ndash;&gt;
+                        <username>873558779@qq.com</username>
+                        <password>shang7171</password>
+                    </authConfig>
+                    <images>
+                        <image>
+                            &lt;!&ndash; 指定image的名字（包含registry地址）&ndash;&gt;
+                            <name>registry.cn-hangzhou.aliyuncs.com/wei-docker/${docker.image.prefix}:${project.name}-${project.version}</name>
+                            &lt;!&ndash;registry地址,用于推送,拉取镜像&ndash;&gt;
+                            <registry>registry.cn-hangzhou.aliyuncs.com</registry>
+                            &lt;!&ndash; 别名为master，不关键&ndash;&gt;
+                            <alias>master</alias>
+                            <build>
+                                &lt;!&ndash; 指定dockerfile文件的位置&ndash;&gt;
+                                <dockerFile>${project.basedir}/src/main/docker/Dockerfile</dockerFile>
+                                <buildOptions>
+                                    &lt;!&ndash; 网络的配置，与宿主主机共端口号&ndash;&gt;
+                                    <network>host</network>
+                                </buildOptions>
+                            </build>
+                        </image>
+                    </images>
+                    <buildArgs>
+                        &lt;!&ndash; dockerfile参数，指定jar路径 &ndash;&gt;
+                        <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
+                    </buildArgs>
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <id>docker-exec</id>
+                        &lt;!&ndash; 绑定mvn install阶段，当执行mvn install时 就会执行docker build 和docker push&ndash;&gt;
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build</goal>
+                            <goal>push</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>-->
+
+        </plugins>
+    </build>
+</project>

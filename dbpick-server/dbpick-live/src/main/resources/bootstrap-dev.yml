@@ -1,0 +1,17 @@
+spring:
+  cloud:
+    # 负载均衡器缓存
+    loadbalancer:
+      cache:
+        enabled: true
+        caffeine:
+          spec: initialCapacity=500,expireAfterWrite=5sss
+    nacos:
+      discovery:
+        server-addr: http://127.0.0.1:8848
+        namespace: a2f006a1-e08c-4be6-87ca-3e82f369e378
+      config:
+        server-addr: http://127.0.0.1:8848
+        file-extension: yaml
+        namespace: a2f006a1-e08c-4be6-87ca-3e82f369e378
+        extension-configs[0]: common.yaml

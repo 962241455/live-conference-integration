@@ -1,0 +1,86 @@
+version: '3.4'
+services:
+  dbpick-backend-gateway:
+    image: dbpick/dbpick-backend-gateway:1.0-SNAPSHOT
+    hostname: backend-gateway
+    ports:
+      - "7000:7000"
+    deploy:
+      replicas: 1
+      # @see https://docs.docker.com/compose/compose-file/#restart_policy
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      # @see https://docs.docker.com/compose/compose-file/#resources
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 1024M
+        reservations:
+          cpus: '0.25'
+          memory: 512M
+    volumes:
+      - "/logs:/data/logs"
+    environment:
+      - JAVA_OPTS=-Xmx512M -Xms512M -Xmn128M
+      - spring.profiles.active=dev
+
+  dbpick-manager:
+    image: dbpick/dbpick-manager:1.0.0
+    hostname: manager
+    ports:
+      - "7073:7073"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 1024M
+        reservations:
+          cpus: '0.25'
+          memory: 512M
+    depends_on:
+      - backend-gateway
+    volumes:
+      - "/logs:/data/logs"
+    environment:
+      - JAVA_OPTS=-Xmx512M -Xms512M -Xmn128M
+      - spring.profiles.active=dev
+
+  dbpick-third:
+    image: dbpick/dbpick-third:1.0.0
+    hostname: third
+    ports:
+      - "7074:7074"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 1024M
+        reservations:
+          cpus: '0.25'
+          memory: 512M
+    depends_on:
+      - backend-gateway
+    volumes:
+      - "/logs:/data/logs"
+    environment:
+      - JAVA_OPTS=-Xmx512M -Xms512M -Xmn128M
+      - spring.profiles.active=dev
+
+networks:
+  simple_ecommerce:
+    external: true
